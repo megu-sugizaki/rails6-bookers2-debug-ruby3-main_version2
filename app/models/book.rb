@@ -10,4 +10,18 @@ class Book < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
   
+  #whereメソッドは特定のレコードだけ取得したり、検索機能を実装するときに使うメソッド。テーブル内の条件に一致したレコードを配列の形で取得することができる。
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @book = Book.where("title LIKE?","#{word}")
+    elsif search == "forward_match"
+      @book = Book.where("title LIKE?","%#{word}")
+    elsif search == "backward_match"
+      @book = Book.where("title LIKE?","#{word}%")
+    elsif search == "partial_match"
+      @book = Book.where('title LIKE?',"%#{word}%")
+    else 
+      @Book = Book.all
+    end 
+  end 
 end
